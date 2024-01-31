@@ -4,7 +4,7 @@ let app = new Vue({
         product: "Socks",
         image: "./assets/vmSocks-green-onWhite.jpg",
         altText: "A pair of socks",
-        inStock: true,
+        inStock: false,
         details: ['80% cotton', '20% polyester', 'Gender-neutral'],
         variants: [
             {
@@ -18,7 +18,7 @@ let app = new Vue({
                 variantImage: "./assets/vmSocks-blue-onWhite.jpg",
             }
         ],
-        cart: 0,
+        cart: 0
     },
     methods: {
         addToCart() {
@@ -26,14 +26,6 @@ let app = new Vue({
         },
         updateProduct(variantImage) {
             this.image = variantImage
-        },
-        deleteFromCart() {
-            if (this.cart > 0) {
-                this.cart -= 1
-            }
-            else {
-                alert('Вы не можете удалить товар из корзины')
-            }
         }
     }
 })
