@@ -36,6 +36,12 @@ Vue.component('product', {
             Add to cart
             </button>
   
+            <button
+                @click="deleteFromCart" 
+           >
+                Delete from cart
+           </button>
+           
          </div> 
 
          <product-tabs :reviews="reviews"></product-tabs>
@@ -60,7 +66,7 @@ Vue.component('product', {
                     variantColor: 'blue',
                     variantImage: 'https://www.vuemastery.com/images/challenges/vmSocks-blue-onWhite.jpg',
                     variantQuantity: 0
-                }
+                },
             ],
             reviews: []
         }
@@ -70,7 +76,13 @@ Vue.component('product', {
             this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId)
         },
         updateProduct(index) {
-            this.selectedVariant = index
+            this.selectedVariant = index;
+        },
+        deleteFromCart() {
+            this.$emit('delete-from-cart', this.variants[this.selectedVariant].variantId)
+        },
+        watchCart(){
+            this.$emit('watch-cart', this.variants[this.selectedVariant].variantId)
         }
     },
     computed: {
@@ -256,6 +268,18 @@ let app = new Vue({
     methods: {
         updateCart(id) {
             this.cart.push(id)
+        },
+        deleteItem(id) {
+            for (let i = this.cart.length - 1; i >= 0; i--) {
+                if (this.cart[i] === id) {
+                    this.cart.splice(i,1)
+                }
+            }
+        },
+        watchCart() {
+            for (let i = this.cart.length - 1; i >= 0; i--) {
+                console.log('Товар #' + `${i+1}` + ' с id ' + this.cart[i]);
+            }
         }
     }
 })
