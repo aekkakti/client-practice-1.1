@@ -68,12 +68,12 @@ Vue.component('product', {
                     variantQuantity: 0
                 },
             ],
-            reviews: []
+            reviews: [],
         }
     },
     methods: {
         addToCart() {
-            this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId)
+            this.$emit('add-to-cart', [this.variants[this.selectedVariant].variantId, this.variants[this.selectedVariant].variantColor])
         },
         updateProduct(index) {
             this.selectedVariant = index;
@@ -81,9 +81,6 @@ Vue.component('product', {
         deleteFromCart() {
             this.$emit('delete-from-cart', this.variants[this.selectedVariant].variantId)
         },
-        watchCart(){
-            this.$emit('watch-cart', this.variants[this.selectedVariant].variantId)
-        }
     },
     computed: {
         title() {
@@ -266,19 +263,22 @@ let app = new Vue({
         cart: []
     },
     methods: {
-        updateCart(id) {
-            this.cart.push(id)
+        updateCart([id, color]) {
+            this.cart.push([id, color])
         },
         deleteItem(id) {
             for (let i = this.cart.length - 1; i >= 0; i--) {
                 if (this.cart[i] === id) {
-                    this.cart.splice(i,1)
+                    if (this.cart[i][1] === id) {
+                        this.cart.splice(i, 1)
+                    }
                 }
             }
         },
         watchCart() {
-            for (let i = this.cart.length - 1; i >= 0; i--) {
-                console.log('Товар #' + `${i+1}` + ' с id ' + this.cart[i]);
+            for (let element of this.cart) {
+                for (let item of element)
+                    console.log(item)
             }
         }
     }
